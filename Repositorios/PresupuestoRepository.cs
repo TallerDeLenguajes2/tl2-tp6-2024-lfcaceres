@@ -7,90 +7,62 @@ public class PresupuestoRepository : IPresupuestoRepostory
     private string cadenaConexion = "Data Source=db/Tienda.db";
     public void CrearNuevo(Presupuesto pres)
     {
-        using ( SqliteConnection connection = new SqliteConnection(cadenaConexion))
+        using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
         {
-            var query = "INSERT INTO Presupuestos (Nombre) VALUES (@Descripcion)";
+            var query = "INSERT INTO Presupuestos (ClienteId) VALUES (@ClienteId)";
             connection.Open();
             var command = new SqliteCommand(query, connection);
-            command.Parameters.Add(new SqliteParameter("@Descripcion", pres.Nombre));
+            command.Parameters.Add(new SqliteParameter("@ClienteId", pres.Clientes.ClienteId));
             //command.Parameters.Add(new SqliteParameter("@Precio", pres.Detalle));
             command.ExecuteNonQuery();
             connection.Close();
         }
     }
-    
-    public Presupuesto ObtenerDetallePorID(int id)
+
+
+    public bool AgregarProducto(int id, Producto prod, int cant)
     {
-        Presupuesto presu = new Presupuesto();
-        using ( SqliteConnection connection = new SqliteConnection(cadenaConexion))
-        {
-            var query = "Select p.idPresupuesto,p.NombreDestinatario,Pr.idProducto as idProducto, cantidad, Descripcion, Precio FROM Presupuestos p INNER JOIN PresupuestosDetalle ON p.idPresupuesto = PresupuestosDetalle.idPresupuesto INNER JOIN Productos Pr ON PresupuestosDetalle.idProducto = Pr.idProducto WHERE p.idPresupuesto = @IdPresupuesto";
-            connection.Open();
-            var command = new SqliteCommand(query, connection);
-            command.Parameters.Add(new SqliteParameter("@IdPresupuesto", id));
 
-            using (SqliteDataReader reader = command.ExecuteReader())
-                {   
-                    
-                    while (reader.Read())
-                    {
-                        //PresupuestoDetalle presdet = new PresupuestoDetalle();
-                        Producto prod=new Producto();
-                        presu.IdPresupuesto = Convert.ToInt32(reader["idPresupuesto"]);
-                        presu.Nombre = reader["NombreDestinatario"].ToString();
-                        prod.IdProducto = Convert.ToInt32(reader["idProducto"]);
-                        prod.Descripcion=reader["Descripcion"].ToString();
-                        prod.Precio=Convert.ToInt32(reader["Precio"]);
-                        int Cantidad = Convert.ToInt32(reader["Cantidad"]);
-                        //presdet.CargaProducto(prod);
-                        presu.AgregaProducto(prod,Cantidad);
-                         
-                    }
-                }
-            connection.Close();
-        }
-        return presu;
-    }
-
-    public bool AgregarProducto(int id, Producto prod, int cant){
-        
         return true;
     }
 
     public List<Presupuesto> ListarPresupuestos()
+    {
+        List<Presupuesto> listaProd = new List<Presupuesto>();
+        using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
         {
-            List<Presupuesto> listaProd = new List<Presupuesto>();
-            using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
+            string query = "SELECT idPresupuesto,ClienteId,Nombre,Email,Telefono, idProducto, Descripcion, Precio FROM Presupuestos as p INNER JOIN Clientes as c ON p.ClienteId=c.ClienteId INNER JOIN PresupuestosDetalle as d ON p.idPresupuesto = d.idPresupuesto INNER JOIN Productos as r ON d.idProducto = r.idProducto;";
+            SqliteCommand command = new SqliteCommand(query, connection);
+            connection.Open();
+            using (SqliteDataReader reader = command.ExecuteReader())
             {
-                string query = "SELECT * FROM Presupuestos;";
-                SqliteCommand command = new SqliteCommand(query, connection);
-                connection.Open();
-                using(SqliteDataReader reader = command.ExecuteReader())
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        var presu = new Presupuesto();
-                        presu.IdPresupuesto = Convert.ToInt32(reader["idPresupuesto"]);
-                        presu.Nombre = reader["NombreDestinatario"].ToString();
-                        listaProd.Add(presu);
-                    }
+                    var presu = new Presupuesto();
+                    presu.IdPresupuesto = Convert.ToInt32(reader["idPresupuesto"]);
+                    presu.Clientes.ClienteId = Convert.ToInt32(reader["ClienteId"]);
+                    presu.Clientes.Nombre= reader["Nombre"].ToString();
+                    presu.Clientes.Email = reader["Email"].ToString();
+                    presu.Clientes.Telefono = reader["Telefono"].ToString();
+                    listaProd.Add(presu);
                 }
-                connection.Close();
-
             }
-            return listaProd;
-        }
+            connection.Close();
 
-        public void EliminarPresupuesto(int id)
+        }
+        return listaProd;
+    }
+
+    public void EliminarPresupuesto(int id)
+    {
+        using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
         {
-             using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
-            {
-                string query = @"DELETE FROM Presupuestos WHERE idPresupuesto = @id;";
-                connection.Open();
-                SqliteCommand command = new SqliteCommand(query, connection);
-                command.Parameters.Add(new SqliteParameter("@id", id));
-                command.ExecuteNonQuery();
-                connection.Close();
-            }
+            string query = @"DELETE FROM Presupuestos WHERE idPresupuesto = @id;";
+            connection.Open();
+            SqliteCommand command = new SqliteCommand(query, connection);
+            command.Parameters.Add(new SqliteParameter("@id", id));
+            command.ExecuteNonQuery();
+            connection.Close();
         }
+    }
 }

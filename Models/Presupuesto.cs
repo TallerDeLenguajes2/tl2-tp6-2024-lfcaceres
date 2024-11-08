@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Routing.Constraints;
-
+using claseCliente;
 public class Presupuesto
 {
     int idPresupuesto;
-    string nombre;
+    Cliente clientes;
     List<PresupuestoDetalle> detalle;
     const double IVA = 0.21;
 
@@ -13,29 +13,34 @@ public class Presupuesto
     }
 
     public int IdPresupuesto { get => idPresupuesto; set => idPresupuesto = value; }
-    public string Nombre { get => nombre; set => nombre = value; }
-    public List<PresupuestoDetalle> Detalle { get => detalle;  }
 
+    public List<PresupuestoDetalle> Detalle { get => detalle; }
+    public Cliente Clientes { get => clientes; set => clientes = value; }
 
-    public void AgregaProducto(Producto prod,int Cantidad)
+    public void AgregaProducto(Producto prod, int Cantidad)
     {
-        PresupuestoDetalle pd =new PresupuestoDetalle();
+        PresupuestoDetalle pd = new PresupuestoDetalle();
         pd.CargaProducto(prod);
-        pd.Cantidad=Cantidad;
+        pd.Cantidad = Cantidad;
         detalle.Add(pd);
+    }
+
+    public void AgregarCliente(Cliente c)
+    {
+        Clientes = c;
     }
     public double MontoPresupuesto()
     {
         int sumador = 0;
         foreach (var d in Detalle)
         {
-            sumador = d.Producto.Precio + sumador;
+            sumador = d.Producto.Sum(p => p.Precio) + sumador;
         }
         return sumador;
     }
     public double MontoPresupuestoConIva()
     {
-        return MontoPresupuesto()*IVA;
+        return MontoPresupuesto() * IVA;
     }
     public int CantidadProductos()
     {

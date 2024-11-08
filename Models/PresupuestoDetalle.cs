@@ -1,19 +1,19 @@
 
 public class PresupuestoDetalle
 {
-    Producto producto;
+    List<Producto> producto;
     int cantidad;
 
     public PresupuestoDetalle()
     {
-        producto=new Producto();
+        Producto=new List<Producto>();
     }
 
     public int Cantidad { get => cantidad; set => cantidad = value; }
-    public Producto Producto { get => producto; }
+    public List<Producto> Producto { get => producto; set => producto = value; }
 
     public void CargaProducto(Producto prod)
     {
-        producto=prod;
+        Producto.Add(prod);
     }
 }

@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = " Eliminar Productos"; // Cambia el título según sea necesario
+}
+
+@using MVC.Models
+@model Producto
+
+<h1>Eliminar Producto</h1>
+
+<form asp-controller="Producto" asp-action="EliminarProducto">
+    <div class="form-group">
+        <label asp-for="@Model.IdProducto"></label>
+        <input asp-for="@Model.IdProducto" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+

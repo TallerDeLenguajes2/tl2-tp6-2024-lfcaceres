@@ -19,11 +19,45 @@ public class ProductoController : Controller
     }
 
 
-    [HttpPost]
+    [HttpGet]
     public IActionResult CrearProducto()
     {
+        Producto producto = new Producto();
+        return View(producto);
+    }
+    [HttpPost]
+
+    public IActionResult CrearProducto(Producto prod)
+    {
+        
+        prod.IdProducto = producto.ListarProducto().Count +1;
         producto.CrearNuevo(prod);
-        return View(producto.CrearNuevo(prod));
+        return RedirectToAction("ListarProducto");
     }
 
+    [HttpGet]
+    public IActionResult ModificarProducto()
+    {
+        return View(new Producto());
+    }
+    [HttpPost]
+    public IActionResult ModificarProducto(Producto produc)
+    {
+
+        producto.ModificarProducto(produc.IdProducto,produc);
+        return RedirectToAction("ListarProducto");
+    }
+
+    [HttpGet]
+    public IActionResult EliminarProducto()
+    {
+        return View(new Producto());
+    }
+    [HttpPost]
+    public IActionResult EliminarProducto(Producto prod)
+    {
+
+        producto.EliminarProducto(prod.IdProducto);
+        return RedirectToAction("ListarProducto");
+    }
 }

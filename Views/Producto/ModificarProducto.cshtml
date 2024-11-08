@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = " Modificar Productos"; // Cambia el título según sea necesario
+}
+
+@using MVC.Models
+@model Producto
+
+<h1>Modificar Producto</h1>
+
+<form asp-controller="Producto" asp-action="ModificarProducto">
+    <div class="form-group">
+        <label asp-for="@Model.IdProducto"></label>
+        <input asp-for="@Model.IdProducto" class="form-control" />
+        <label asp-for="@Model.Descripcion"></label>
+        <input asp-for="@Model.Descripcion" class="form-control" />
+        <label asp-for="@Model.Precio"></label>
+        <input asp-for="@Model.Precio" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+

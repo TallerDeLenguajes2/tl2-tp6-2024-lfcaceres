@@ -84,7 +84,7 @@ public class ProductoRepository : IProductoRepostory
         {
              using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
             {
-                string query = @"DELETE FROM Productos WHERE id = @id;";
+                string query = @"DELETE FROM Productos WHERE idProducto = @id;";
                 connection.Open();
                 SqliteCommand command = new SqliteCommand(query, connection);
                 command.Parameters.Add(new SqliteParameter("@id", id));

@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Lista de Presupuestos"; // Cambia el título según sea necesario
+}
+
+@using MVC.Models
+@model List<Presupuesto>
+
+<h1>Lista de Presupuestos</h1>
+
+<table class="table table-striped table-dark">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nombre</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach(var p in Model)
+    {
+    <tr>
+      <td>@p.IdPresupuesto</td>
+      <td>@p.Nombre</td>
+    </tr>
+    }
+  </tbody>
+</table>
+

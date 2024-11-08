@@ -9,11 +9,11 @@ public class PresupuestoRepository : IPresupuestoRepostory
     {
         using ( SqliteConnection connection = new SqliteConnection(cadenaConexion))
         {
-            var query = "INSERT INTO Productos (Descripcion, Precio) VALUES (@Descripcion, @Precio)";
+            var query = "INSERT INTO Presupuestos (Nombre) VALUES (@Descripcion)";
             connection.Open();
             var command = new SqliteCommand(query, connection);
             command.Parameters.Add(new SqliteParameter("@Descripcion", pres.Nombre));
-            command.Parameters.Add(new SqliteParameter("@Precio", pres.Detalle));
+            //command.Parameters.Add(new SqliteParameter("@Precio", pres.Detalle));
             command.ExecuteNonQuery();
             connection.Close();
         }
@@ -62,7 +62,7 @@ public class PresupuestoRepository : IPresupuestoRepostory
             List<Presupuesto> listaProd = new List<Presupuesto>();
             using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
             {
-                string query = "SELECT * FROM Presupuesto;";
+                string query = "SELECT * FROM Presupuestos;";
                 SqliteCommand command = new SqliteCommand(query, connection);
                 connection.Open();
                 using(SqliteDataReader reader = command.ExecuteReader())
@@ -85,7 +85,7 @@ public class PresupuestoRepository : IPresupuestoRepostory
         {
              using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
             {
-                string query = @"DELETE FROM Productos WHERE id = @id;";
+                string query = @"DELETE FROM Presupuestos WHERE idPresupuesto = @id;";
                 connection.Open();
                 SqliteCommand command = new SqliteCommand(query, connection);
                 command.Parameters.Add(new SqliteParameter("@id", id));

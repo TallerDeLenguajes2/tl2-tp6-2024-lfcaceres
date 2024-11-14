@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Crear Cliente"; // Cambia el título según sea necesario
+}
+
+@using MVC.Models;
+@using claseCliente;
+@model Cliente
+
+<h1>Crear Cliente</h1>
+
+<form asp-controller="Cliente" asp-action="CrearCliente">
+    <div class="form-group">
+        <label asp-for="@Model.Nombre"></label>
+        <input asp-for="@Model.Nombre" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Email"></label>
+        <input asp-for="@Model.Email" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Telefono"></label>
+        <input asp-for="@Model.Telefono" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+

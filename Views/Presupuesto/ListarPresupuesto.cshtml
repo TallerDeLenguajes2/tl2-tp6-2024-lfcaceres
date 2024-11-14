@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Lista de Presupuestos"; // Cambia el título según sea necesario
+  ViewData["Title"] = "Lista de Presupuestos"; // Cambia el título según sea necesario
 }
 
 @using MVC.Models
@@ -11,17 +11,37 @@
   <thead>
     <tr>
       <th scope="col">ID</th>
+      <th scope="col">ID Cliente</th>
       <th scope="col">Nombre</th>
+      <th scope="col">Email</th>
+      <th scope="col">Telefono</th>
+      <th scope="col">Cantidad</th>
+      <th scope="col">Id Producto</th>
+      <th scope="col">Descripcion</th>
+      <th scope="col">Precio</th>
     </tr>
   </thead>
   <tbody>
-    @foreach(var p in Model)
+    @foreach (var p in Model)
     {
-    <tr>
-      <td>@p.IdPresupuesto</td>
-      <td>@p.Nombre</td>
-    </tr>
+      foreach (var d in p.Detalle)
+      {
+        foreach(var pr in d.Producto)
+        {
+        <tr>
+          <td>@p.IdPresupuesto</td>
+          <td>@p.Clientes.ClienteId</td>
+          <td>@p.Clientes.Nombre</td>
+          <td>@p.Clientes.Email</td>
+          <td>@p.Clientes.Telefono</td>
+
+          <td>@d.Cantidad</td>
+          <td>@pr.IdProducto</td>
+          <td>@pr.Descripcion</td>
+          <td>@pr.Precio</td>
+        </tr>
+        }
+      }
     }
   </tbody>
 </table>
-

@@ -2,6 +2,7 @@
 //using System.Data.SQLite;
 using System.Runtime.InteropServices;
 using Microsoft.Data.Sqlite;
+using claseCliente;
 public class PresupuestoRepository : IPresupuestoRepostory
 {
     private string cadenaConexion = "Data Source=db/Tienda.db";
@@ -31,7 +32,7 @@ public class PresupuestoRepository : IPresupuestoRepostory
         List<Presupuesto> listaProd = new List<Presupuesto>();
         using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
         {
-            string query = "SELECT idPresupuesto,ClienteId,Nombre,Email,Telefono, idProducto, Descripcion, Precio FROM Presupuestos as p INNER JOIN Clientes as c ON p.ClienteId=c.ClienteId INNER JOIN PresupuestosDetalle as d ON p.idPresupuesto = d.idPresupuesto INNER JOIN Productos as r ON d.idProducto = r.idProducto;";
+            string query = "SELECT p.idPresupuesto, p.ClienteId, Nombre, Email, Telefono, r.idProducto, Descripcion, Precio, Cantidad FROM Presupuestos as p INNER JOIN Clientes as c ON p.ClienteId=c.ClienteId INNER JOIN PresupuestosDetalle as d ON p.idPresupuesto = d.idPresupuesto INNER JOIN Productos as r ON d.idProducto = r.idProducto ORDER BY p.idPresupuesto;";
             SqliteCommand command = new SqliteCommand(query, connection);
             connection.Open();
             using (SqliteDataReader reader = command.ExecuteReader())
@@ -40,10 +41,27 @@ public class PresupuestoRepository : IPresupuestoRepostory
                 {
                     var presu = new Presupuesto();
                     presu.IdPresupuesto = Convert.ToInt32(reader["idPresupuesto"]);
-                    presu.Clientes.ClienteId = Convert.ToInt32(reader["ClienteId"]);
-                    presu.Clientes.Nombre= reader["Nombre"].ToString();
-                    presu.Clientes.Email = reader["Email"].ToString();
-                    presu.Clientes.Telefono = reader["Telefono"].ToString();
+
+                    var cl = new Cliente();
+                    cl.ClienteId = Convert.ToInt32(reader["ClienteId"]);
+                    cl.Nombre = reader["Nombre"].ToString();
+                    cl.Email = reader["Email"].ToString();
+                    cl.Telefono = reader["Telefono"].ToString();
+
+                    presu.Clientes = cl;
+
+                    var prod = new Producto();
+                    prod.IdProducto = Convert.ToInt32(reader["idProducto"]);
+                    prod.Descripcion = reader["Descripcion"].ToString();
+                    prod.Precio = Convert.ToInt32(reader["Precio"]);
+
+                    presu.AgregaProducto(prod, Convert.ToInt32(reader["Cantidad"]));
+                    // var det = new PresupuestoDetalle();
+                    // det.Producto.Add(prod);
+                    // det.Cantidad = ;
+
+                    // presu.Detalle.Add(det);
+
                     listaProd.Add(presu);
                 }
             }
@@ -55,14 +73,27 @@ public class PresupuestoRepository : IPresupuestoRepostory
 
     public void EliminarPresupuesto(int id)
     {
-        using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
+        try
         {
-            string query = @"DELETE FROM Presupuestos WHERE idPresupuesto = @id;";
-            connection.Open();
-            SqliteCommand command = new SqliteCommand(query, connection);
-            command.Parameters.Add(new SqliteParameter("@id", id));
-            command.ExecuteNonQuery();
-            connection.Close();
+            using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
+            {
+
+                string query = @"DELETE FROM Presupuestos WHERE idPresupuesto = @id;";
+                connection.Open();
+                SqliteCommand command = new SqliteCommand(query, connection);
+                command.Parameters.Add(new SqliteParameter("@id", id));
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
         }
+        catch
+        {
+            Console.Write("No se puede eliminar el producto");
+        }
+
     }
+
+
+
+
 }

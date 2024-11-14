@@ -5,6 +5,15 @@
 @using MVC.Models
 @model Producto
 
+@if (TempData["Message"] != null)
+{
+    var message = TempData["Message"].ToString();
+    var messageType = TempData["MessageType"].ToString();
+    <div class="alert alert-@messageType">
+        @message
+    </div>
+}
+
 <h1>Eliminar Producto</h1>
 
 <form asp-controller="Producto" asp-action="EliminarProducto">

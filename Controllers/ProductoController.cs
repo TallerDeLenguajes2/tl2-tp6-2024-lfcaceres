@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MVC.Models;
 using Microsoft.Data.Sqlite;
-
+using MVC.ViewModels;
 public class ProductoController : Controller
 {
     ProductoRepository producto;
@@ -14,7 +14,7 @@ public class ProductoController : Controller
 
     public IActionResult ListarProducto()
     {
-        
+
         return View(producto.ListarProducto());
     }
 
@@ -22,29 +22,33 @@ public class ProductoController : Controller
     [HttpGet]
     public IActionResult CrearProducto()
     {
-        Producto producto = new Producto();
+        AltaProductoViewModel producto = new AltaProductoViewModel();
         return View(producto);
     }
+
     [HttpPost]
 
     public IActionResult CrearProducto(Producto prod)
     {
-        
-        prod.IdProducto = producto.ListarProducto().Count +1;
+
+        prod.IdProducto = producto.ListarProducto().Count + 1;
         producto.CrearNuevo(prod);
         return RedirectToAction("ListarProducto");
     }
 
     [HttpGet]
-    public IActionResult ModificarProducto()
+    public IActionResult ModificarProducto(int id1)
     {
-        return View(new Producto());
+        // si creo un boton en listarproducto para modificar el producto, mando el id y el get lo recibe 
+        Producto prod = new Producto();
+        prod.IdProducto = id1;
+        return View(prod);
     }
     [HttpPost]
     public IActionResult ModificarProducto(Producto produc)
     {
 
-        producto.ModificarProducto(produc.IdProducto,produc);
+        producto.ModificarProducto(produc.IdProducto, produc);
         return RedirectToAction("ListarProducto");
     }
 
@@ -56,7 +60,6 @@ public class ProductoController : Controller
     [HttpPost]
     public IActionResult EliminarProducto(Producto prod)
     {
-
         producto.EliminarProducto(prod.IdProducto);
         return RedirectToAction("ListarProducto");
     }

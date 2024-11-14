@@ -9,13 +9,12 @@
 
 <form asp-controller="Producto" asp-action="ModificarProducto">
     <div class="form-group">
-        <label asp-for="@Model.IdProducto"></label>
-        <input asp-for="@Model.IdProducto" class="form-control" />
+        <input hidden asp-for="@Model.IdProducto" class="form-control" />
         <label asp-for="@Model.Descripcion"></label>
         <input asp-for="@Model.Descripcion" class="form-control" />
         <label asp-for="@Model.Precio"></label>
         <input asp-for="@Model.Precio" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary">Enviar</button>
+    <button type="submit" class="btn btn-primary" onclick="return confirm("Estas seguro?")">Enviar</button>
 </form>
 

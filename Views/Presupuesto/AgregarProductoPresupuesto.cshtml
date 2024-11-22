@@ -1,0 +1,41 @@
+@{
+    ViewData["Title"] = "Crear Presupuestos"; // Cambia el título según sea necesario
+}
+
+@using AltaProductoPresupuesto
+@model AltaProductoPresupuestoViewModel
+
+<div class="container">
+    <h2>Agregar Producto Al Presupuesto ID:"@Model.IdPresupuesto" </h2>
+
+    <!-- Formulario de Alta de Presupuesto -->
+    <form asp-controller="Presupuesto" asp-action="AgregarProductoPresupuesto">
+
+        <!-- Campo para seleccionar el producto -->
+        <div class="form-group">
+            <label for="Producto">Seleccionar Producto</label>
+            <select id="Producto" name="IdProducto" required>
+                <!-- Aquí se incluirían los clientes en la lista -->
+                <option value="" disabled selected>Seleccione un Producto</option>
+                <!-- Ejemplo de clientes (esto se generaría dinámicamente en el backend) -->
+
+                @{
+                    foreach (var p in Model.ListaProducto)
+                    {
+                        <option value="@p.IdProducto">@p.Descripcion</option>
+                    }
+                }
+                <!-- Fin de los clientes -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="Cantidad">Cantidad</label>
+            <input asp-for="@Model.Detalle.Cantidad" class="form-control" />
+        </div>
+        <!-- Botón para enviar el formulario -->
+        <div class="form-group">
+            <button asp-controller="Presupuesto" asp-action="AgregarProductoPresupuesto" type="submit">Agregar Producto</button>
+        </div>
+
+    </form>
+</div>

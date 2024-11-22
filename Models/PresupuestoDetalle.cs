@@ -1,19 +1,23 @@
 
+using AspNetCoreGeneratedDocument;
+
 public class PresupuestoDetalle
 {
-    List<Producto> producto;
+    Producto producto;
     int cantidad;
 
     public PresupuestoDetalle()
     {
-        Producto=new List<Producto>();
+        
     }
 
+    public Producto Producto { get => producto; set => producto = value; }
     public int Cantidad { get => cantidad; set => cantidad = value; }
-    public List<Producto> Producto { get => producto; set => producto = value; }
 
-    public void CargaProducto(Producto prod)
+    public void CargaDetalle(Producto prod, int cant)
     {
-        Producto.Add(prod);
+        producto = prod;
+        cantidad = cant;
+
     }
 }

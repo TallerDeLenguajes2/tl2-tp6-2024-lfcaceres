@@ -20,8 +20,8 @@ public class ClienteController : Controller
     [HttpGet]
     public IActionResult CrearCliente()
     {
-        Cliente producto = new Cliente();
-        return View(producto);
+        Cliente Cli = new Cliente();
+        return View(Cli);
     }
     [HttpPost]
 
@@ -36,7 +36,7 @@ public class ClienteController : Controller
     [HttpGet]
     public IActionResult ModificarCliente()
     {
-        return View(new Producto());
+        return View(new Cliente());
     }
     [HttpPost]
     public IActionResult ModificarCliente(Cliente cli)

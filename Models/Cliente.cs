@@ -7,6 +7,15 @@ namespace claseCliente
         string email;
         string telefono;
 
+        public Cliente()
+        {
+        }
+
+        public Cliente(int clienteId)
+        {
+            this.clienteId = clienteId;
+        }
+
         public int ClienteId { get => clienteId; set => clienteId = value; }
         public string Nombre { get => nombre; set => nombre = value; }
         public string Email { get => email; set => email = value; }

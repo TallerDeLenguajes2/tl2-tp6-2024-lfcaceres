@@ -1,8 +1,9 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MVC.Models;
+using AltaProducto;
 using Microsoft.Data.Sqlite;
-using MVC.ViewModels;
+
 public class ProductoController : Controller
 {
     ProductoRepository producto;
@@ -27,9 +28,9 @@ public class ProductoController : Controller
     }
 
     [HttpPost]
-
     public IActionResult CrearProducto(Producto prod)
     {
+        if(!ModelState.IsValid) return RedirectToAction("ListarProducto");
 
         prod.IdProducto = producto.ListarProducto().Count + 1;
         producto.CrearNuevo(prod);

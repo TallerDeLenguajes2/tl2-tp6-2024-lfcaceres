@@ -10,10 +10,12 @@ public class PresupuestoRepository : IPresupuestoRepostory
     {
         using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
         {
-            var query = "INSERT INTO Presupuestos (ClienteId) VALUES (@ClienteId)";
+            var query = "INSERT INTO Presupuestos (ClienteId,FechaCreacion) VALUES (@ClienteId,@Fecha)";
             connection.Open();
             var command = new SqliteCommand(query, connection);
             command.Parameters.Add(new SqliteParameter("@ClienteId", pres.Clientes.ClienteId));
+            DateTime fechaActual = DateTime.Now;
+            command.Parameters.Add(new SqliteParameter("@Fecha", fechaActual.ToString() ));
             //command.Parameters.Add(new SqliteParameter("@Precio", pres.Detalle));
             command.ExecuteNonQuery();
             connection.Close();
@@ -21,9 +23,19 @@ public class PresupuestoRepository : IPresupuestoRepostory
     }
 
 
-    public bool AgregarProducto(int id, Producto prod, int cant)
+    public bool AgregarProductoPresupuesto(int id, Producto prod, int cant)
     {
-
+        using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
+        {
+            var query = "INSERT INTO PresupuestosDetalle (idPresupuesto, idProducto, Cantidad) VALUES (@idPresupuesto, @idProducto, @Cantidad)";
+            connection.Open();
+            var command = new SqliteCommand(query, connection);
+            command.Parameters.Add(new SqliteParameter("@idPresupuesto", id));
+            command.Parameters.Add(new SqliteParameter("@idProducto", prod.IdProducto));
+            command.Parameters.Add(new SqliteParameter("@Cantidad", cant));
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
         return true;
     }
 

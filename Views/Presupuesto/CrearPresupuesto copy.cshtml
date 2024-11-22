@@ -1,0 +1,41 @@
+@{
+    ViewData["Title"] = "Crear Presupuestos"; // Cambia el título según sea necesario
+}
+
+
+@using AltaPresupuesto
+@model AltaPresupuestoViewModel
+
+<div class="container">
+    <h2>Alta de Presupuesto</h2>
+
+    <!-- Formulario de Alta de Presupuesto -->
+    <form asp-controller="Presupuesto" asp-action="CrearPresupuesto">
+
+        <!-- Campo para seleccionar el cliente -->
+        <div class="form-group">
+            <label for="cliente">Seleccionar Cliente</label>
+           <select id="cliente" name="clienteId" required>
+                <!-- Aquí se incluirían los clientes en la lista -->
+                <option value="" disabled selected>Seleccione un cliente</option>
+                <!-- Ejemplo de clientes (esto se generaría dinámicamente en el backend) -->
+
+                @{
+                    
+                    foreach (var p in Model.Listaclientes)
+                    {
+                        <option value="@p.ClienteId">@p.Nombre</option>
+                        
+                    }
+                }
+                <!-- Fin de los clientes -->
+            </select>
+        </div>
+        
+        <!-- Botón para enviar el formulario -->
+        <div class="form-group">
+            <button type="submit">Crear Presupuesto</button>
+        </div>
+
+    </form>
+</div>

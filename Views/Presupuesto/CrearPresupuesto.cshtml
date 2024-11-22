@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "Crear Presupuestos"; // Cambia el título según sea necesario
+}
+
+
+@using AltaPresupuesto
+@model AltaPresupuestoViewModel
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-asp-controller="Presupuestos" asp-action="CrearPresupuesto" method="post" class="container mt-4">
+    <div class="mb-3">
+        <label for="IdCliente" class="form-label">Cliente</label>
+        <select name="IdCliente" class="form-control" required>
+            <option value="">Seleccione un cliente</option>
+            @foreach (var cliente in Model.Listaclientes)
+            {
+                <option value="@cliente.ClienteId">@cliente.Nombre</option>
+            }
+        </select>
+        <span asp-validation-for="IdCliente" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar Presupuesto</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

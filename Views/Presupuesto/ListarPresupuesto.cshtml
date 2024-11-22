@@ -10,7 +10,7 @@
 <table class="table table-striped table-dark">
   <thead>
     <tr>
-      <th scope="col">ID</th>
+      <th scope="col">ID Presupuesto</th>
       <th scope="col">ID Cliente</th>
       <th scope="col">Nombre</th>
       <th scope="col">Email</th>
@@ -26,21 +26,18 @@
     {
       foreach (var d in p.Detalle)
       {
-        foreach(var pr in d.Producto)
-        {
-        <tr>
-          <td>@p.IdPresupuesto</td>
-          <td>@p.Clientes.ClienteId</td>
-          <td>@p.Clientes.Nombre</td>
-          <td>@p.Clientes.Email</td>
-          <td>@p.Clientes.Telefono</td>
+          <tr>
+            <td>@p.IdPresupuesto</td>
+            <td>@p.Clientes.ClienteId</td>
+            <td>@p.Clientes.Nombre</td>
+            <td>@p.Clientes.Email</td>
+            <td>@p.Clientes.Telefono</td>
 
-          <td>@d.Cantidad</td>
-          <td>@pr.IdProducto</td>
-          <td>@pr.Descripcion</td>
-          <td>@pr.Precio</td>
-        </tr>
-        }
+            <td>@d.Cantidad</td>
+            <td>@d.Producto.IdProducto</td>
+            <td>@d.Producto.Descripcion</td>
+            <td>@d.Producto.Precio</td>
+          </tr>
       }
     }
   </tbody>

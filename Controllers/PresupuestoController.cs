@@ -1,6 +1,9 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MVC.Models;
+using claseCliente;
+using AltaPresupuesto;
+using AltaProductoPresupuesto;
 using Microsoft.Data.Sqlite;
 
 public class PresupuestoController : Controller
@@ -14,7 +17,7 @@ public class PresupuestoController : Controller
 
     public IActionResult ListarPresupuesto()
     {
-        
+
         return View(presupuesto.ListarPresupuestos());
     }
 
@@ -22,31 +25,42 @@ public class PresupuestoController : Controller
     [HttpGet]
     public IActionResult CrearPresupuesto()
     {
-        Presupuesto presu = new Presupuesto();
+        ClienteRepository lista = new ClienteRepository();
+        List<Cliente> listaCliente = lista.ListarCliente();
+        AltaPresupuestoViewModel presu = new AltaPresupuestoViewModel(presupuesto.ListarPresupuestos().Count + 1, listaCliente);
         return View(presu);
     }
     [HttpPost]
 
-    public IActionResult CrearProducto(Presupuesto presu)
+    public IActionResult CrearPresupuesto(AltaPresupuestoViewModel presu)
     {
-        
-        presu.IdPresupuesto = presupuesto.ListarPresupuestos().Count +1;
-        presupuesto.CrearNuevo(presu);
-        return RedirectToAction("ListarProducto");
+
+        Presupuesto nuevoPresu = new Presupuesto(presu.IdCliente);
+        presupuesto.CrearNuevo(nuevoPresu);
+        return RedirectToAction("ListarPresupuesto");
     }
 
     [HttpGet]
-   /* public IActionResult ModificarPresupuesto()
-    {
-        return View(new Presupuesto());
-    }
-    [HttpPost]
-    public IActionResult ModificarPresupuesto(Presupuesto presu)
+    public IActionResult AgregarProductoPresupuesto(AltaPresupuestoViewModel presu)
     {
 
-        presupuesto(presu.IdPresupuesto,presu);
-        return RedirectToAction("ListarProducto");
-    }*/
+        ProductoRepository productos = new ProductoRepository();
+        List<Producto> listaProducto = productos.ListarProducto();
+        AltaProductoPresupuestoViewModel alta = new AltaProductoPresupuestoViewModel(presu.IdPresupuesto, listaProducto);
+        return View(alta);
+    }
+    [HttpPost]
+
+    public IActionResult AgregarProductoPresupuesto(AltaProductoPresupuestoViewModel presu)
+    {
+        PresupuestoDetalle nuevoDetalle = new PresupuestoDetalle();
+
+        nuevoDetalle.CargaDetalle(presu.Detalle.Producto, presu.Detalle.Cantidad);
+
+
+        return RedirectToAction("ListarPresupuesto");
+    }
+
 
     [HttpGet]
     public IActionResult EliminarPresupuesto()

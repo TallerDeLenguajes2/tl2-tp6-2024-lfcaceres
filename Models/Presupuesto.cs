@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Routing.Constraints;
+using AltaPresupuesto;
 using claseCliente;
 public class Presupuesto
 {
@@ -12,6 +13,17 @@ public class Presupuesto
         detalle = new List<PresupuestoDetalle>();
     }
 
+    public Presupuesto(int id, Cliente cli)
+    {
+        IdPresupuesto = id;
+        clientes = cli;
+        detalle = new List<PresupuestoDetalle>();
+    }
+    public Presupuesto( int idclien)
+    {
+        clientes = new Cliente(idclien);
+        detalle = new List<PresupuestoDetalle>();
+    }
     public int IdPresupuesto { get => idPresupuesto; set => idPresupuesto = value; }
 
     public List<PresupuestoDetalle> Detalle { get => detalle; }
@@ -20,11 +32,9 @@ public class Presupuesto
     public void AgregaProducto(Producto prod, int Cantidad)
     {
         PresupuestoDetalle pd = new PresupuestoDetalle();
-        pd.CargaProducto(prod);
-        pd.Cantidad = Cantidad;
+        pd.CargaDetalle(prod,Cantidad);
         detalle.Add(pd);
     }
-
     public void AgregarCliente(Cliente c)
     {
         Clientes = c;
@@ -34,7 +44,7 @@ public class Presupuesto
         int sumador = 0;
         foreach (var d in Detalle)
         {
-            sumador = d.Producto.Sum(p => p.Precio) + sumador;
+            sumador = d.Producto.Precio + sumador;
         }
         return sumador;
     }
@@ -47,6 +57,7 @@ public class Presupuesto
         int sumador = 0;
         foreach (var d in Detalle)
         {
+             
             sumador = d.Cantidad + sumador;
         }
         return sumador;

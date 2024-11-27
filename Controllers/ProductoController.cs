@@ -6,11 +6,13 @@ using Microsoft.Data.Sqlite;
 
 public class ProductoController : Controller
 {
-    ProductoRepository producto;
+   
+    private readonly IProductoRepository producto;
 
-    public ProductoController()
+    public ProductoController(IProductoRepository _producto)
     {
-        producto = new ProductoRepository();
+       
+        producto = _producto;
     }
 
     public IActionResult ListarProducto()

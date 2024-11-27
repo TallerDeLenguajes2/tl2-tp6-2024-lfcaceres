@@ -1,6 +1,6 @@
 
 
-public interface IProductoRepostory
+public interface IProductoRepository
 {
     //● Crear un nuevo Producto. (recibe un objeto Producto)
     public void CrearNuevo(Producto prod);

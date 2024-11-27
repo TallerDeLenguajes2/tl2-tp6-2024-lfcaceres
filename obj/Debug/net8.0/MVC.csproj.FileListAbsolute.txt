@@ -55,3 +55,6 @@
 /Users/luisfernandocaceres/Desktop/Taller2/MVC/obj/Debug/net8.0/MVC.csproj.AssemblyReference.cache
 /Users/luisfernandocaceres/Desktop/Taller2/MVC/obj/Debug/net8.0/MVC.sourcelink.json
 /Users/luisfernandocaceres/Desktop/Taller2/MVC/obj/Debug/net8.0/MVC.csproj.Up2Date
+/Users/luisfernandocaceres/Desktop/Taller2/MVC/bin/Debug/net8.0/System.Security.Permissions.dll
+/Users/luisfernandocaceres/Desktop/Taller2/MVC/bin/Debug/net8.0/Encrypt.Net.dll
+/Users/luisfernandocaceres/Desktop/Taller2/MVC/bin/Debug/net8.0/System.ServiceModel.dll

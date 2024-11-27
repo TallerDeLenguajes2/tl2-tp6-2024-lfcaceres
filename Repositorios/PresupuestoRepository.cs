@@ -3,7 +3,7 @@
 using System.Runtime.InteropServices;
 using Microsoft.Data.Sqlite;
 using claseCliente;
-public class PresupuestoRepository : IPresupuestoRepostory
+public class PresupuestoRepository : IPresupuestoRepository
 {
     private string cadenaConexion = "Data Source=db/Tienda.db";
     public void CrearNuevo(Presupuesto pres)

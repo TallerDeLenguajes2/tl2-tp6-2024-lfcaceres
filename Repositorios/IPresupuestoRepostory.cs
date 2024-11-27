@@ -1,4 +1,4 @@
-public interface IPresupuestoRepostory
+public interface IPresupuestoRepository
 {
     //● Crear un nuevo Presupuesto. (recibe un objeto Presupuesto)
     public void CrearNuevo(Presupuesto pres);

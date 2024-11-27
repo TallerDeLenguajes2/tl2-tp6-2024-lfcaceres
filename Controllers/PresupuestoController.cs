@@ -8,11 +8,11 @@ using Microsoft.Data.Sqlite;
 
 public class PresupuestoController : Controller
 {
-    PresupuestoRepository presupuesto;
+    private readonly IPresupuestoRepository presupuesto;
 
-    public PresupuestoController()
+    public PresupuestoController(IPresupuestoRepository _presupuesto)
     {
-        presupuesto = new PresupuestoRepository();
+        presupuesto = _presupuesto;
     }
 
     public IActionResult ListarPresupuesto()

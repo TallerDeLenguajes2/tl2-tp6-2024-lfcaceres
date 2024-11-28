@@ -21,6 +21,10 @@ builder.Services.AddSession(options =>
 });
 
 
+// Configuración del logging (por defecto ya está configurado para consola)
+builder.Logging.ClearProviders();   // Limpiar proveedores previos si es necesario
+builder.Logging.AddConsole();       // Agregar el log a la consola
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

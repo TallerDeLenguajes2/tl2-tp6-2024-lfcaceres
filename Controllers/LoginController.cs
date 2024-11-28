@@ -24,12 +24,14 @@ public class LoginController : Controller
         {
             var log = new LoginViewModel()
             {
+                //Revisa la cookie para saber si esta autenticado, si lo esta sera true
                 Autenticado = HttpContext.Session.GetString("IsAuthenticated") == "true"
             };
             return View(log);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex.ToString());
             Console.Write("ERROR Controlador Get Index");
             return View("Index");  
         }
@@ -46,14 +48,16 @@ public class LoginController : Controller
                 return View("Index");
             }
             Usuario usuario = _userRepository.GetUser(model.Username, model.Password);
-            if(usuario != null)
+            if(usuario != null) //ingresa correctamente
             {
                 HttpContext.Session.SetString("IsAuthenticated", "true");
                 HttpContext.Session.SetString("User", usuario.Username);
                 HttpContext.Session.SetString("AccessLevel", usuario.AccessLevel.ToString());
+                _logger.LogInformation("El usuario: "+ usuario.Username+" ingresó correctamente");
                 return RedirectToAction("Index", "Home");
             }else
             {
+                _logger.LogWarning("Intento de acceso invalido - Usuario: "+ usuario.Username + "Clave ingresada: "+ usuario.Password);
                 // Si la autenticación falla, almacenamos un mensaje en TempData
                 TempData["ErrorMessage"] = "Usuario o contraseña incorrectos.";
             }
@@ -61,8 +65,9 @@ public class LoginController : Controller
         }
         catch (Exception ex)
         {
-           Console.Write("ERROR Controlador Post Index");
-           model.Autenticado = false;
+            _logger.LogError(ex.ToString());
+             Console.Write("ERROR Controlador Post Index");
+             model.Autenticado = false;
             return View("Index", model);
         }
 
@@ -96,6 +101,7 @@ public class LoginController : Controller
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex.ToString());
             return View("Index");
         }
     }
@@ -113,6 +119,7 @@ public class LoginController : Controller
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex.ToString());
             return View("Index");
         }
     }

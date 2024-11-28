@@ -5,10 +5,16 @@ using Microsoft.Data.Sqlite;
 using claseCliente;
 public class PresupuestoRepository : IPresupuestoRepostory
 {
-    private string cadenaConexion = "Data Source=db/Tienda.db";
+    // private string cadenaConexion = "Data Source=db/Tienda.db";
+    private readonly string connectionString;
+    public PresupuestoRepository(string CadenaDeConexion)
+    {
+        connectionString = CadenaDeConexion;
+    }
+
     public void CrearNuevo(Presupuesto pres)
     {
-        using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
+        using (SqliteConnection connection = new SqliteConnection(connectionString))
         {
             var query = "INSERT INTO Presupuestos (ClienteId,FechaCreacion) VALUES (@ClienteId,@Fecha)";
             connection.Open();
@@ -25,7 +31,7 @@ public class PresupuestoRepository : IPresupuestoRepostory
 
     public bool AgregarProductoPresupuesto(int id, Producto prod, int cant)
     {
-        using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
+        using (SqliteConnection connection = new SqliteConnection(connectionString))
         {
             var query = "INSERT INTO PresupuestosDetalle (idPresupuesto, idProducto, Cantidad) VALUES (@idPresupuesto, @idProducto, @Cantidad)";
             connection.Open();
@@ -42,7 +48,7 @@ public class PresupuestoRepository : IPresupuestoRepostory
     public List<Presupuesto> ListarPresupuestos()
     {
         List<Presupuesto> listaProd = new List<Presupuesto>();
-        using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
+        using (SqliteConnection connection = new SqliteConnection(connectionString))
         {
             string query = "SELECT p.idPresupuesto, p.ClienteId, Nombre, Email, Telefono, r.idProducto, Descripcion, Precio, Cantidad FROM Presupuestos as p INNER JOIN Clientes as c ON p.ClienteId=c.ClienteId INNER JOIN PresupuestosDetalle as d ON p.idPresupuesto = d.idPresupuesto INNER JOIN Productos as r ON d.idProducto = r.idProducto ORDER BY p.idPresupuesto;";
             SqliteCommand command = new SqliteCommand(query, connection);
@@ -87,7 +93,7 @@ public class PresupuestoRepository : IPresupuestoRepostory
     {
         try
         {
-            using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
+            using (SqliteConnection connection = new SqliteConnection(connectionString))
             {
 
                 string query = @"DELETE FROM Presupuestos WHERE idPresupuesto = @id;";

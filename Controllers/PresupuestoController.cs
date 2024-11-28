@@ -8,12 +8,19 @@ using Microsoft.Data.Sqlite;
 
 public class PresupuestoController : Controller
 {
-    PresupuestoRepository presupuesto;
+    IPresupuestoRepostory presupuesto;
+    IClienteRepository lista;
+    IProductoRepostory productos ;
 
-    public PresupuestoController()
+    
+
+    public PresupuestoController(IPresupuestoRepostory _presupuesto,IProductoRepostory _productos, IClienteRepository _lista)
     {
-        presupuesto = new PresupuestoRepository();
+        presupuesto = _presupuesto;
+        productos = _productos;
+        lista = _lista;
     }
+    
 
     public IActionResult ListarPresupuesto()
     {
@@ -25,7 +32,7 @@ public class PresupuestoController : Controller
     [HttpGet]
     public IActionResult CrearPresupuesto()
     {
-        ClienteRepository lista = new ClienteRepository();
+
         List<Cliente> listaCliente = lista.ListarCliente();
         AltaPresupuestoViewModel presu = new AltaPresupuestoViewModel(presupuesto.ListarPresupuestos().Count + 1, listaCliente);
         return View(presu);
@@ -44,7 +51,6 @@ public class PresupuestoController : Controller
     public IActionResult AgregarProductoPresupuesto(AltaPresupuestoViewModel presu)
     {
 
-        ProductoRepository productos = new ProductoRepository();
         List<Producto> listaProducto = productos.ListarProducto();
         AltaProductoPresupuestoViewModel alta = new AltaProductoPresupuestoViewModel(presu.IdPresupuesto, listaProducto);
         return View(alta);

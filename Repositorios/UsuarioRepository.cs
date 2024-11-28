@@ -4,11 +4,15 @@ using Microsoft.Data.Sqlite;
 
 public class UsuarioRepository : IUsuarioRepository
 {
-    private string connectionString = "Data Source=db/Tienda.db";
+    // private string connectionString = "Data Source=db/Tienda.db";
+    private readonly string connectionString;
+    public UsuarioRepository(string CadenaDeConexion)
+    {
+        connectionString = CadenaDeConexion;
+    }
 
     public UsuarioRepository()
     {
-        
     }
 
     public Usuario GetUser(string username, string password)

@@ -1,12 +1,17 @@
 using Microsoft.Data.Sqlite;
 using claseCliente;
-public class ClienteRepository
+public class ClienteRepository :  IClienteRepository
 {
-    private string cadenaConexion = "Data Source=db/Tienda.db";
+    //private string cadenaConexion = "Data Source=db/Tienda.db";
+    private readonly string connectionString;
+    public ClienteRepository(string CadenaDeConexion)
+    {
+        connectionString = CadenaDeConexion;
+    }
 
     public void CrearNuevo(Cliente client)
     {
-        using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
+        using (SqliteConnection connection = new SqliteConnection(connectionString))
         {
             var query = "INSERT INTO Clientes (Nombre, Email, Telefono) VALUES (@Nombre, @Email, @Telefono)";
             connection.Open();
@@ -20,7 +25,7 @@ public class ClienteRepository
     }
     public void ModificarCliente(int id, Cliente client)
     {
-        using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
+        using (SqliteConnection connection = new SqliteConnection(connectionString))
         {
             var query = "UPDATE Clientes SET Nombre = @NuevoNombre, Email = @NuevoEmail, Telefono = @NuevoTelefono WHERE ClienteId = @id";
             connection.Open();
@@ -37,7 +42,7 @@ public class ClienteRepository
     public List<Cliente> ListarCliente()
     {
         List<Cliente> listaClient = new List<Cliente>();
-        using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
+        using (SqliteConnection connection = new SqliteConnection(connectionString))
         {
             string query = "SELECT * FROM Clientes;";
             SqliteCommand command = new SqliteCommand(query, connection);
@@ -62,7 +67,7 @@ public class ClienteRepository
 
     public void EliminarCliente(int id)
     {
-        using (SqliteConnection connection = new SqliteConnection(cadenaConexion))
+        using (SqliteConnection connection = new SqliteConnection(connectionString))
         {
             string query = @"DELETE FROM Clientes WHERE ClienteId = @id;";
             connection.Open();

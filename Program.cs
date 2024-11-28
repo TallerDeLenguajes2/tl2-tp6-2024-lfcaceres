@@ -2,7 +2,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IProductoRepostory,ProductoRepository>();
+builder.Services.AddScoped<IPresupuestoRepostory,PresupuestoRepository>();
+builder.Services.AddScoped<IClienteRepository,ClienteRepository>();
 builder.Services.AddScoped<IUsuarioRepository,UsuarioRepository>();
+
+// se agrega estas dos lineas para la inyeccion de la cadena de conexion, se modifica el appsetting y se agrega al repositorio en el constructor
+String CadenaDeConexion = builder.Configuration.GetConnectionString("SqliteConexion")!.ToString();
+builder.Services.AddSingleton(CadenaDeConexion);
 
 //PARTE DE AUTENTICACION
 //se agrega esto para poder utilizar httpcontext

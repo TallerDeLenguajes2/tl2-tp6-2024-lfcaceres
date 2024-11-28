@@ -7,7 +7,7 @@ public class ClienteController : Controller
 
     public ClienteController()
     {
-        this.clienteR = new ClienteRepository();
+    
     }
 
     public IActionResult ListarCliente()

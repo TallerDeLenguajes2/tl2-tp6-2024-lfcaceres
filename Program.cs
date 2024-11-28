@@ -2,6 +2,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IUsuarioRepository,UsuarioRepository>();
+
+//PARTE DE AUTENTICACION
+//se agrega esto para poder utilizar httpcontext
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Ajusta el tiempo de expiración según lo necesario
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 
 var app = builder.Build();
 
@@ -15,6 +26,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// PARTE DE AUTENTICACION
+app.UseSession();
 
 app.UseRouting();
 

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Encrypt.Net" Version="1.1.0" />
     <PackageReference Include="Microsoft.Data.SQLite" Version="8.0.10" />
   </ItemGroup>
 
